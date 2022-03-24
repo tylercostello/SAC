@@ -46,11 +46,12 @@ class Motor(gym.Env):
 
         # if we took an action, we were in state 1
 
-        state=np.array(2,1)
+        state=np.array([0,0], dtype=float)
         action=abs(action)
-        state[0] = 1*action
+        state[0] = action[0]
         reward=-1*abs((target-action))
         state[1]=target
+        #print(state)
         #print(reward)
 
         self.steps_taken += 1
@@ -73,7 +74,7 @@ class Motor(gym.Env):
         return state, reward, done, info
 
     def reset(self):
-        state = 0
+        state=np.array([0,0])
         self.steps_taken = 0
         return state
 

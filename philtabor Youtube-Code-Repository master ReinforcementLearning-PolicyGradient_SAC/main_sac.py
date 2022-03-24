@@ -7,10 +7,11 @@ from gym import wrappers
 from Motor import Motor
 import random
 
+
 if __name__ == '__main__':
     #env = gym.make('InvertedPendulumBulletEnv-v0')
-    env=Motor()
-    print(env.observation_space.shape)
+    env = Motor()
+    print("Here "+str(env.observation_space.shape))
     #raise Exception
     agent = Agent(input_dims=env.observation_space.shape, env=env,
             n_actions=env.action_space.shape[0])
@@ -34,14 +35,17 @@ if __name__ == '__main__':
         observation = env.reset()
         done = False
         score = 0
-        target = random.randint(10, 85)/100.0
+        target = random.randint(10, 85) / 100.0
         print(target)
         while not done:
+            #print(observation)
+            #raise Exception
             action = agent.choose_action(observation)
             #observation_, reward, done, info = env.step(action)
             observation_, reward, done, info = env.step(action, target)
             score += reward
-            agent.remember(observation, action, reward, observation_, done)
+            #agent.remember(observation, action, reward, observation_, done)
+            agent.remember(observation, action, target, reward, observation_, done)
             if not load_checkpoint:
                 agent.learn()
             observation = observation_

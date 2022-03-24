@@ -80,7 +80,7 @@ class ValueNetwork(nn.Module):
         self.load_state_dict(T.load(self.checkpoint_file))
 
 class ActorNetwork(nn.Module):
-    def __init__(self, alpha, input_dims, max_action, fc1_dims=256,
+    def __init__(self, alpha, input_dims, max_action, fc1_dims=256, 
             fc2_dims=256, n_actions=2, name='actor', chkpt_dir='tmp/sac'):
         super(ActorNetwork, self).__init__()
         self.input_dims = input_dims
@@ -104,10 +104,11 @@ class ActorNetwork(nn.Module):
         self.to(self.device)
 
     def forward(self, state):
+
+        #print("here")
+        #print(state)
+
         prob = self.fc1(state)
-        print(state.shape)
-        print(self.fc1_dims.shape)
-        raise Exception
         prob = F.relu(prob)
         prob = self.fc2(prob)
         prob = F.relu(prob)
@@ -131,9 +132,6 @@ class ActorNetwork(nn.Module):
         action = T.tanh(actions)*T.tensor(self.max_action).to(self.device)
         log_probs = probabilities.log_prob(actions)
         log_probs -= T.log(1-action.pow(2)+self.reparam_noise)
-        #print(list(log_probs.shape)[0])
-        log_probs = T.reshape(log_probs, (list(log_probs.shape)[0],1))
-        #print(log_probs.shape)
         log_probs = log_probs.sum(1, keepdim=True)
 
         return action, log_probs
@@ -143,3 +141,4 @@ class ActorNetwork(nn.Module):
 
     def load_checkpoint(self):
         self.load_state_dict(T.load(self.checkpoint_file))
+
