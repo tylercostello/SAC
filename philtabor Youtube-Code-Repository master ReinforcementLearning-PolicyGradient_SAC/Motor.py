@@ -49,7 +49,7 @@ class Motor(gym.Env):
         state=np.array([0,0], dtype=float)
         action=abs(action)
         state[0] = action[0]
-        reward=-1*abs((target-action))
+        reward=-2-1*abs((target-action))
         state[1]=target
         #print(state)
         #print(reward)
@@ -63,7 +63,9 @@ class Motor(gym.Env):
         #print(reward)
         # regardless of the action, game is done after a single step
 
+        #print(action)
         if state[0]>=target-0.05 and state[0]<=target+0.05 :
+            print(self.steps_taken)
             reward=5
             done = True
         else:

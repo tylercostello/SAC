@@ -15,7 +15,7 @@ if __name__ == '__main__':
     #raise Exception
     agent = Agent(input_dims=env.observation_space.shape, env=env,
             n_actions=env.action_space.shape[0])
-    n_games = 250
+    n_games = 1000
     # uncomment this line and do a mkdir tmp && mkdir video if you want to
     # record video of the agent playing the game.
     #env = wrappers.Monitor(env, 'tmp/video', video_callable=lambda episode_id: True, force=True)
